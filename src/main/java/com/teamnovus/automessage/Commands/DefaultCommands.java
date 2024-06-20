@@ -1,14 +1,14 @@
-package com.TeamNovus.AutoMessage.Commands;
+package com.teamnovus.automessage.Commands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-import com.TeamNovus.AutoMessage.Permission;
-import com.TeamNovus.AutoMessage.AutoMessage;
-import com.TeamNovus.AutoMessage.Commands.Common.BaseCommand;
-import com.TeamNovus.AutoMessage.Commands.Common.CommandManager;
-import com.TeamNovus.AutoMessage.Util.Utils;
+import com.teamnovus.automessage.AutoMessage;
+import com.teamnovus.automessage.Permission;
+import com.teamnovus.automessage.Commands.Common.BaseCommand;
+import com.teamnovus.automessage.Commands.Common.CommandManager;
+import com.teamnovus.automessage.Util.Utils;
 
 public class DefaultCommands {
 

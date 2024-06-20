@@ -1,4 +1,4 @@
-package com.TeamNovus.AutoMessage.Models;
+package com.teamnovus.automessage.Models;
 
 import java.util.Calendar;
 import java.util.LinkedList;

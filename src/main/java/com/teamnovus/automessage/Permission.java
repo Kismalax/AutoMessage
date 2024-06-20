@@ -1,4 +1,4 @@
-package com.TeamNovus.AutoMessage;
+package com.teamnovus.automessage;
 
 import org.bukkit.command.CommandSender;
 

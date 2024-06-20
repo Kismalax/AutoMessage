@@ -1,4 +1,4 @@
-package com.TeamNovus.AutoMessage.Commands;
+package com.teamnovus.automessage.Commands;
 
 import java.util.List;
 
@@ -7,16 +7,16 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginDescriptionFile;
 
-import com.TeamNovus.AutoMessage.AutoMessage;
-import com.TeamNovus.AutoMessage.Permission;
-import com.TeamNovus.AutoMessage.Commands.Common.BaseCommand;
-import com.TeamNovus.AutoMessage.Models.Message;
-import com.TeamNovus.AutoMessage.Models.MessageList;
-import com.TeamNovus.AutoMessage.Models.MessageLists;
-import com.TeamNovus.AutoMessage.Util.Utils;
-import com.TeamNovus.AutoMessage.Util.Updater;
-import com.TeamNovus.AutoMessage.Util.Updater.UpdateResult;
-import com.TeamNovus.AutoMessage.Util.Updater.UpdateType;
+import com.teamnovus.automessage.AutoMessage;
+import com.teamnovus.automessage.Permission;
+import com.teamnovus.automessage.Commands.Common.BaseCommand;
+import com.teamnovus.automessage.Models.Message;
+import com.teamnovus.automessage.Models.MessageList;
+import com.teamnovus.automessage.Models.MessageLists;
+import com.teamnovus.automessage.Util.Updater;
+import com.teamnovus.automessage.Util.Utils;
+import com.teamnovus.automessage.Util.Updater.UpdateResult;
+import com.teamnovus.automessage.Util.Updater.UpdateType;
 
 public class PluginCommands {
 

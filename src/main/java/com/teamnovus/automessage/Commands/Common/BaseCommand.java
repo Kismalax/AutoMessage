@@ -1,11 +1,11 @@
-package com.TeamNovus.AutoMessage.Commands.Common;
+package com.teamnovus.automessage.Commands.Common;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.TeamNovus.AutoMessage.Permission;
+import com.teamnovus.automessage.Permission;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

@@ -1,4 +1,4 @@
-package com.TeamNovus.AutoMessage.Commands.Common;
+package com.teamnovus.automessage.Commands.Common;
 
 import java.lang.reflect.Method;
 import java.util.LinkedHashMap;

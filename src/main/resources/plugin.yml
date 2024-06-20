@@ -3,7 +3,7 @@ version: ${project.version}
 author: ELCHILEN0
 description: Schedule easily configurable broadcasts!
 website: http://www.novuscraft.org
-main: com.TeamNovus.AutoMessage.AutoMessage
+main: com.teamnovus.automessage.AutoMessage
 commands:
    automessage:
      description: Main command for all AutoMessage commands

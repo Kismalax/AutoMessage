@@ -1,4 +1,4 @@
-package com.TeamNovus.AutoMessage.Commands.Common;
+package com.teamnovus.automessage.Commands.Common;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +11,8 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-import com.TeamNovus.AutoMessage.AutoMessage;
-import com.TeamNovus.AutoMessage.Permission;
+import com.teamnovus.automessage.AutoMessage;
+import com.teamnovus.automessage.Permission;
 
 public class BaseCommandExecutor implements CommandExecutor, TabCompleter {
 

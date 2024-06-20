@@ -1,4 +1,4 @@
-package com.TeamNovus.AutoMessage.Util;
+package com.teamnovus.automessage.Util;
 
 import java.util.Arrays;
 import java.util.regex.Matcher;

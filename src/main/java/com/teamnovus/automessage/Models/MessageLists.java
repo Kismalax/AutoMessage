@@ -1,12 +1,12 @@
-package com.TeamNovus.AutoMessage.Models;
+package com.teamnovus.automessage.Models;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 
-import com.TeamNovus.AutoMessage.AutoMessage;
-import com.TeamNovus.AutoMessage.Tasks.BroadcastTask;
+import com.teamnovus.automessage.AutoMessage;
+import com.teamnovus.automessage.Tasks.BroadcastTask;
 
 public class MessageLists {
 	private static HashMap<String, MessageList> lists = new HashMap<String, MessageList>();

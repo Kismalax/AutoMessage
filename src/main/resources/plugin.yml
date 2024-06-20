@@ -1,9 +1,10 @@
 name: AutoMessage
 version: ${project.version}
-author: ELCHILEN0
+authors: [ELCHILEN0, Kismalax]
 description: Schedule easily configurable broadcasts!
 website: http://www.novuscraft.org
 main: com.teamnovus.automessage.AutoMessage
+api-version: 1.17
 commands:
    automessage:
      description: Main command for all AutoMessage commands

@@ -1,4 +1,4 @@
-package com.teamnovus.automessage.Models;
+package com.teamnovus.automessage.models;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 import org.bukkit.Bukkit;
 
 import com.teamnovus.automessage.AutoMessage;
-import com.teamnovus.automessage.Tasks.BroadcastTask;
+import com.teamnovus.automessage.tasks.BroadcastTask;
 
 public class MessageLists {
 	private static HashMap<String, MessageList> lists = new HashMap<String, MessageList>();

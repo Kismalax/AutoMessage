@@ -12,14 +12,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.teamnovus.automessage.Commands.DefaultCommands;
-import com.teamnovus.automessage.Commands.PluginCommands;
-import com.teamnovus.automessage.Commands.Common.BaseCommandExecutor;
-import com.teamnovus.automessage.Commands.Common.CommandManager;
-import com.teamnovus.automessage.Models.Message;
-import com.teamnovus.automessage.Models.MessageList;
-import com.teamnovus.automessage.Models.MessageLists;
-import com.teamnovus.automessage.Util.Metrics;
+import com.teamnovus.automessage.commands.DefaultCommands;
+import com.teamnovus.automessage.commands.PluginCommands;
+import com.teamnovus.automessage.commands.common.BaseCommandExecutor;
+import com.teamnovus.automessage.commands.common.CommandManager;
+import com.teamnovus.automessage.models.Message;
+import com.teamnovus.automessage.models.MessageList;
+import com.teamnovus.automessage.models.MessageLists;
+import com.teamnovus.automessage.util.Metrics;
 
 public class AutoMessage extends JavaPlugin {
 	public static AutoMessage plugin;

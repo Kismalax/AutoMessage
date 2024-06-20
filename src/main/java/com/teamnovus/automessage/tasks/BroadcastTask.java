@@ -1,4 +1,4 @@
-package com.teamnovus.automessage.Tasks;
+package com.teamnovus.automessage.tasks;
 
 import java.util.Random;
 
@@ -6,8 +6,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import com.teamnovus.automessage.AutoMessage;
-import com.teamnovus.automessage.Models.MessageList;
-import com.teamnovus.automessage.Models.MessageLists;
+import com.teamnovus.automessage.models.MessageList;
+import com.teamnovus.automessage.models.MessageLists;
 
 public class BroadcastTask implements Runnable {
 	private String name;

@@ -1,4 +1,4 @@
-package com.teamnovus.automessage.Models;
+package com.teamnovus.automessage.models;
 
 import java.util.LinkedList;
 

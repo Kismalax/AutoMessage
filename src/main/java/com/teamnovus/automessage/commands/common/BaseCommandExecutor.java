@@ -1,4 +1,4 @@
-package com.teamnovus.automessage.Commands.Common;
+package com.teamnovus.automessage.commands.common;
 
 import java.util.ArrayList;
 import java.util.List;

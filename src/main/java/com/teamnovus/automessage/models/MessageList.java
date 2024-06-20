@@ -10,6 +10,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
+
 public class MessageList {
 	private boolean enabled = true;
 	private int interval = 45;
@@ -190,20 +193,9 @@ public class MessageList {
 					m = m.replace("{SECOND}", Calendar.getInstance().get(Calendar.SECOND) + "");
 
 				if (message.isJsonMessage(i) && to instanceof Player) {
-					String v = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
-
 					try {
-						// Parse the message
-						Object parsedMessage = Class.forName("net.minecraft.server." + v + ".IChatBaseComponent$ChatSerializer").getMethod("a", String.class).invoke(null, ChatColor.translateAlternateColorCodes("&".charAt(0), m));
-						Object packetPlayOutChat = Class.forName("net.minecraft.server." + v + ".PacketPlayOutChat").getConstructor(Class.forName("net.minecraft.server." + v + ".IChatBaseComponent")).newInstance(parsedMessage);
-
-						// Drill down to the playerConnection which calls the sendPacket method
-						Object craftPlayer = Class.forName("org.bukkit.craftbukkit." + v + ".entity.CraftPlayer").cast(to);
-						Object craftHandle = Class.forName("org.bukkit.craftbukkit." + v + ".entity.CraftPlayer").getMethod("getHandle").invoke(craftPlayer);
-						Object playerConnection = Class.forName("net.minecraft.server." + v + ".EntityPlayer").getField("playerConnection").get(craftHandle);
-
-						// Send the message packet
-						Class.forName("net.minecraft.server." + v + ".PlayerConnection").getMethod("sendPacket", Class.forName("net.minecraft.server." + v + ".Packet")).invoke(playerConnection, packetPlayOutChat);
+						Component components = GsonComponentSerializer.gson().deserialize(m);
+						to.sendMessage(components);
 					} catch (Exception ignore) {
 						ignore.printStackTrace();
 					}

@@ -23,6 +23,14 @@ public class AutoMessage extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
+		if (!isPaper()) {
+			getLogger().severe("This plugin requies Paper or compatibile server.");
+			getLogger().severe("Get it from https://papermc.io/");
+			
+			Bukkit.getPluginManager().disablePlugin(this);
+			return;
+		}
+		
 		plugin = this;
 
 		// Setup the base command.
@@ -135,5 +143,18 @@ public class AutoMessage extends JavaPlugin {
 		}
 
 		saveConfig();
+	}
+	
+    private static boolean hasClass(String className) {
+        try {
+            Class.forName(className);
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+    }
+	
+	private static boolean isPaper() {
+		return hasClass("com.destroystokyo.paper.PaperConfig") || hasClass("io.papermc.paper.configuration.Configuration");
 	}
 }

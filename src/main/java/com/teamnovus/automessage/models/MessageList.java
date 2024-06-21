@@ -9,6 +9,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
+import com.teamnovus.automessage.util.Utils;
+
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
 public class MessageList {
@@ -16,6 +19,8 @@ public class MessageList {
 	private int interval = 45;
 	private long expiry = -1L;
 	private boolean random = false;
+	private String prefix = null;
+	private String suffix = null;
 	private List<Message> messages = new ArrayList<>();
 
 	private int currentIndex = 0;
@@ -60,6 +65,22 @@ public class MessageList {
 
 	public void setRandom(boolean random) {
 		this.random = random;
+	}
+	
+	public String getPrefix() {
+		return prefix;
+	}
+	
+	public void setPrefix(String prefix) {
+		this.prefix = Utils.convertToMiniMessage(prefix);
+	}
+	
+	public String getSuffix() {
+		return suffix;
+	}
+	
+	public void setSuffix(String suffix) {
+		this.suffix = Utils.convertToMiniMessage(suffix);
 	}
 
 	public List<Message> getMessages() {
@@ -188,7 +209,10 @@ public class MessageList {
 				if (m.contains("{SECOND}"))
 					m = m.replace("{SECOND}", Calendar.getInstance().get(Calendar.SECOND) + "");
 
-				to.sendMessage(MiniMessage.miniMessage().deserialize(m));
+				Component c = MiniMessage.miniMessage().deserializeOr(prefix, Component.empty())
+						.append(MiniMessage.miniMessage().deserialize(m))
+						.append(MiniMessage.miniMessage().deserializeOr(suffix, Component.empty()));
+				to.sendMessage(c);
 			}
 
 			for (String command : commands) {

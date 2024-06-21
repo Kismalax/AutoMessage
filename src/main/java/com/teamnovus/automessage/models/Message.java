@@ -3,12 +3,8 @@ package com.teamnovus.automessage.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gson.JsonParser;
 import com.teamnovus.automessage.AutoMessage;
-
-import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import com.teamnovus.automessage.util.Utils;
 
 public class Message {
 	private static final String SPLIT_REGEX = "(?<!\\\\)\\\\n";
@@ -24,7 +20,7 @@ public class Message {
 			if (part.startsWith("/")) {
 				commandParts.add(part);
 			} else {
-				messageParts.add(convertToMiniMessage(part));
+				messageParts.add(Utils.convertToMiniMessage(part));
 			}
 		}
 		
@@ -49,25 +45,5 @@ public class Message {
 
 	public List<String> getCommands() {
 		return commandParts;
-	}
-	
-	private String convertToMiniMessage(String message) {
-		if (message.contains("&")) {
-			return MiniMessage.miniMessage().serialize(LegacyComponentSerializer.legacyAmpersand().deserialize(message));
-		} else if (isJsonMessage(message)) {
-			return MiniMessage.miniMessage().serialize(GsonComponentSerializer.gson().deserialize(message));
-		} else {
-			return message;
-		}
-	}
-
-	private boolean isJsonMessage(String message) {
-		try {
-			JsonParser.parseString(message).getAsJsonObject();
-			
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
 	}
 }

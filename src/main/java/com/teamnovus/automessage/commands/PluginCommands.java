@@ -84,6 +84,44 @@ public class PluginCommands {
 			sender.sendMessage(ChatColor.RED + "The specified list does not exist!");
 		}
 	}
+	
+	@BaseCommand(aliases = "prefix", desc = "Set the broadcast prefix for a specified message list.", usage = "<List> [Prefix]", min = 1, permission = Permission.COMMAND_PREFIX)
+	public void onPrefixCmd(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+		MessageList list = MessageLists.getBestList(args[0]);
+
+		if (list != null) {
+			if (args.length > 1) {
+				list.setPrefix(Utils.concat(args, 1, args.length));
+				AutoMessage.getInstance().saveConfiguration();
+				sender.sendMessage(ChatColor.GREEN + "Prefix edited!");
+			} else {
+				list.setPrefix(null);
+				AutoMessage.getInstance().saveConfiguration();
+				sender.sendMessage(ChatColor.GREEN + "Prefix cleared!");
+			}
+		} else {
+			sender.sendMessage(ChatColor.RED + "The specified list does not exist!");
+		}
+	}
+	
+	@BaseCommand(aliases = "suffix", desc = "Set the broadcast suffix for a specified message list.", usage = "<List> [suffix]", min = 1, permission = Permission.COMMAND_SUFFIX)
+	public void onSuffixCmd(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+		MessageList list = MessageLists.getBestList(args[0]);
+
+		if (list != null) {
+			if (args.length > 1) {
+				list.setSuffix(Utils.concat(args, 1, args.length));
+				AutoMessage.getInstance().saveConfiguration();
+				sender.sendMessage(ChatColor.GREEN + "Suffix edited!");
+			} else {
+				list.setSuffix(null);
+				AutoMessage.getInstance().saveConfiguration();
+				sender.sendMessage(ChatColor.GREEN + "Suffix cleared!");
+			}
+		} else {
+			sender.sendMessage(ChatColor.RED + "The specified list does not exist!");
+		}
+	}
 
 	@BaseCommand(aliases = "remove", desc = "Remove a list or message from a list.", usage = "<List> [Index]", min = 1, max = 3, permission = Permission.COMMAND_REMOVE)
 	public void onRemoveCmd(CommandSender sender, Command cmd, String commandLabel, String[] args) {

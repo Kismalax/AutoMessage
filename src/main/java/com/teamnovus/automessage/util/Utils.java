@@ -6,6 +6,12 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.google.gson.JsonParser;
+
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+
 public class Utils {
 	
 	private Utils () { }
@@ -22,6 +28,28 @@ public class Utils {
 	public static String concat(String[] s, int start, int end) {
 		String[] args = Arrays.copyOfRange(s, start, end);
 		return StringUtils.join(args, " ");
+	}
+	
+	public static String convertToMiniMessage(String message) {
+		if (message == null) {
+			return null;
+		} else if (message.contains("&")) {
+			return MiniMessage.miniMessage().serialize(LegacyComponentSerializer.legacyAmpersand().deserialize(message));
+		} else if (isJsonMessage(message)) {
+			return MiniMessage.miniMessage().serialize(GsonComponentSerializer.gson().deserialize(message));
+		} else {
+			return message;
+		}
+	}
+
+	private static boolean isJsonMessage(String message) {
+		try {
+			JsonParser.parseString(message).getAsJsonObject();
+			
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	public static final long SECONDS = 60;

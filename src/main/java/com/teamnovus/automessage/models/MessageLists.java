@@ -1,6 +1,7 @@
 package com.teamnovus.automessage.models;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
@@ -9,13 +10,15 @@ import com.teamnovus.automessage.AutoMessage;
 import com.teamnovus.automessage.tasks.BroadcastTask;
 
 public class MessageLists {
-	private static HashMap<String, MessageList> lists = new HashMap<String, MessageList>();
+	private static Map<String, MessageList> lists = new HashMap<>();
+	
+	private MessageLists() { }
 
-	public static HashMap<String, MessageList> getMessageLists() {
+	public static Map<String, MessageList> getMessageLists() {
 		return lists;
 	}
 
-	public static void setMessageLists(HashMap<String, MessageList> messageLists) {
+	public static void setMessageLists(Map<String, MessageList> messageLists) {
 		lists = messageLists;
 	}
 
@@ -24,11 +27,12 @@ public class MessageLists {
 	}
 
 	public static MessageList getBestList(String name) {
-		for (String key : lists.keySet()) {
-			if (key.startsWith(name)) {
-				return lists.get(key);
+		for (Entry<String, MessageList> entry : lists.entrySet()) {
+			if (entry.getKey().startsWith(name)) {
+				return entry.getValue();
 			}
 		}
+		
 		return null;
 	}
 
@@ -62,7 +66,7 @@ public class MessageLists {
 		for (Entry<String, MessageList> entry : lists.entrySet()) {
 			MessageList list = lists.get(entry.getKey());
 
-			Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(AutoMessage.plugin, new BroadcastTask(entry.getKey()), 20 * list.getInterval(), 20 * list.getInterval());
+			Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(AutoMessage.plugin, new BroadcastTask(entry.getKey()), 20L * list.getInterval(), 20L * list.getInterval());
 		}
 	}
 

@@ -1,8 +1,9 @@
 package com.teamnovus.automessage.commands.common;
 
 import java.lang.reflect.Method;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import org.bukkit.ChatColor;
 
@@ -15,7 +16,9 @@ public class CommandManager {
 	private static ChatColor error = ChatColor.RED;
 	private static ChatColor warning = ChatColor.YELLOW;
 
-	private static LinkedHashMap<BaseCommand, Method> commands = new LinkedHashMap<BaseCommand, Method>();
+	private static HashMap<BaseCommand, Method> commands = new HashMap<>();
+	
+	private CommandManager() { }
 
 	public static ChatColor getLight() {
 		return light;
@@ -69,11 +72,8 @@ public class CommandManager {
 		commands.clear();
 	}
 
-	public static LinkedList<BaseCommand> getCommands() {
-		LinkedList<BaseCommand> baseCommands = new LinkedList<BaseCommand>();
-		baseCommands.addAll(commands.keySet());
-
-		return baseCommands;
+	public static List<BaseCommand> getCommands() {
+		return new ArrayList<>(commands.keySet());
 	}
 
 	public static BaseCommand getCommand(String label) {
@@ -90,7 +90,7 @@ public class CommandManager {
 
 	public static void execute(BaseCommand command, Object... args) {
 		try {
-			commands.get(command).invoke(commands.get(command).getDeclaringClass().newInstance(), args);
+			commands.get(command).invoke(commands.get(command).getDeclaringClass().getConstructor().newInstance(), args);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

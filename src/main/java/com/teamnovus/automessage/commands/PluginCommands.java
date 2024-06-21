@@ -5,7 +5,6 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.PluginDescriptionFile;
 
 import com.teamnovus.automessage.AutoMessage;
 import com.teamnovus.automessage.Permission;
@@ -13,10 +12,7 @@ import com.teamnovus.automessage.commands.common.BaseCommand;
 import com.teamnovus.automessage.models.Message;
 import com.teamnovus.automessage.models.MessageList;
 import com.teamnovus.automessage.models.MessageLists;
-import com.teamnovus.automessage.util.Updater;
 import com.teamnovus.automessage.util.Utils;
-import com.teamnovus.automessage.util.Updater.UpdateResult;
-import com.teamnovus.automessage.util.Updater.UpdateType;
 
 public class PluginCommands {
 
@@ -25,26 +21,6 @@ public class PluginCommands {
 		AutoMessage.plugin.loadConfig();
 
 		sender.sendMessage(ChatColor.GREEN + "Configuration reloaded from disk!");
-	}
-
-	@BaseCommand(aliases = "update", desc = "Update to the latest version.", usage = "", permission = Permission.COMMAND_UPDATE)
-	public void onUpdateCmd(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-		Updater updater = new Updater(AutoMessage.plugin, 37718, AutoMessage.plugin.getFile(), UpdateType.NO_DOWNLOAD, false);
-
-		if (updater.getResult() == UpdateResult.UPDATE_AVAILABLE) {
-			sender.sendMessage(ChatColor.GREEN + "There is an update available! Downloading update...");
-
-			UpdateResult result = new Updater(AutoMessage.plugin, 37718, AutoMessage.plugin.getFile(), UpdateType.DEFAULT, true).getResult();
-			if (result == UpdateResult.SUCCESS) {
-				sender.sendMessage(ChatColor.RESET + updater.getLatestName() + ChatColor.GREEN + " has been downloaded sucessfully!");
-			} else {
-				sender.sendMessage(ChatColor.RED + "There was an error downloading " + ChatColor.RESET + updater.getLatestName() + ChatColor.RED + "!");
-			}
-		} else {
-			PluginDescriptionFile desc = AutoMessage.plugin.getDescription();
-
-			sender.sendMessage(ChatColor.RESET + desc.getName() + " v" + desc.getVersion() + ChatColor.GREEN + " is up  to date!");
-		}
 	}
 
 	@BaseCommand(aliases = "add", desc = "Add a list or message to a list.", usage = "<List> [Index] [Message]", min = 1, permission = Permission.COMMAND_ADD)
@@ -188,7 +164,7 @@ public class PluginCommands {
 					if (Integer.valueOf(args[1]).longValue() >= 0) {
 						list.setExpiry(System.currentTimeMillis() + Integer.valueOf(args[1]).longValue());
 					} else {
-						list.setExpiry(Integer.valueOf(-1).longValue());
+						list.setExpiry(-1L);
 					}
 				} else {
 					list.setExpiry(System.currentTimeMillis() + Utils.parseTime(args[1]));
@@ -230,7 +206,7 @@ public class PluginCommands {
 
 		if (list != null) {
 			if (Utils.isInteger(args[1])) {
-				int index = Integer.valueOf(args[1]);
+				int index = Integer.parseInt(args[1]);
 
 				if (list.getMessage(index) != null) {
 					list.broadcast(index);
@@ -248,7 +224,7 @@ public class PluginCommands {
 	@BaseCommand(aliases = "list", desc = "List all lists or messages in a list.", usage = "[List]", max = 1, permission = Permission.COMMAND_LIST)
 	public void onListCmd(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		if (args.length == 0) {
-			if (MessageLists.getMessageLists().keySet().size() != 0) {
+			if (!MessageLists.getMessageLists().keySet().isEmpty()) {
 				sender.sendMessage(ChatColor.DARK_RED + "Availiable Lists:");
 
 				for (String key : MessageLists.getMessageLists().keySet()) {

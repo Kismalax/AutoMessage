@@ -1,7 +1,7 @@
 package com.teamnovus.automessage.commands.common;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.command.Command;
@@ -60,14 +60,6 @@ public class BaseCommandExecutor implements CommandExecutor, TabCompleter {
 	}
 
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-		ArrayList<String> list = new ArrayList<String>();
-
-		for (BaseCommand command : CommandManager.getCommands()) {
-			for (String alias : command.aliases()) {
-				list.add(alias);
-			}
-		}
-
-		return list;
+		return CommandManager.getCommands().stream().map(m -> m.aliases()).flatMap(Stream::of).toList();
 	}
 }

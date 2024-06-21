@@ -1,6 +1,7 @@
 package com.teamnovus.automessage.models;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 
@@ -35,8 +36,8 @@ public class Message {
 
 	}
 
-	public LinkedList<String> getMessages() {
-		LinkedList<String> messages = new LinkedList<String>();
+	public List<String> getMessages() {
+		LinkedList<String> messages = new LinkedList<>();
 
 		for (String line : raw.split(SPLIT_REGEX)) {
 			if (!(line.startsWith("/"))) {
@@ -48,8 +49,8 @@ public class Message {
 		return messages;
 	}
 
-	public LinkedList<String> getCommands() {
-		LinkedList<String> commands = new LinkedList<String>();
+	public List<String> getCommands() {
+		LinkedList<String> commands = new LinkedList<>();
 
 		for (String line : raw.split(SPLIT_REGEX)) {
 			if (line.startsWith("/")) {

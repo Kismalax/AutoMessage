@@ -1,12 +1,10 @@
 package com.teamnovus.automessage;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -19,7 +17,6 @@ import com.teamnovus.automessage.commands.common.CommandManager;
 import com.teamnovus.automessage.models.Message;
 import com.teamnovus.automessage.models.MessageList;
 import com.teamnovus.automessage.models.MessageLists;
-import com.teamnovus.automessage.util.Metrics;
 
 public class AutoMessage extends JavaPlugin {
 	public static AutoMessage plugin;
@@ -38,13 +35,6 @@ public class AutoMessage extends JavaPlugin {
 		// Load the configuration.
 		if (loadConfig()) {
 			// Start metrics.
-			try {
-				Metrics metrics = new Metrics(this);
-
-				metrics.start();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
 	}
 
@@ -64,10 +54,8 @@ public class AutoMessage extends JavaPlugin {
 		try {
 			new YamlConfiguration().load(new File(getDataFolder() + File.separator + "config.yml"));
 		} catch (Exception e) {
-			System.out.println("--- --- --- ---");
-			System.out.println("There was an error loading your configuration.");
-			System.out.println("A detailed description of your error is shown below.");
-			System.out.println("--- --- --- ---");
+			getLogger().severe("There was an error loading your configuration.");
+			getLogger().severe("A detailed description of your error is shown below.");
 			e.printStackTrace();
 			Bukkit.getPluginManager().disablePlugin(this);
 
@@ -93,19 +81,20 @@ public class AutoMessage extends JavaPlugin {
 			if (getConfig().contains("message-lists." + key + ".random"))
 				list.setRandom(getConfig().getBoolean("message-lists." + key + ".random"));
 
-			LinkedList<Message> finalMessages = new LinkedList<Message>();
+			List<Message> finalMessages = new ArrayList<>();
 
 			if (getConfig().contains("message-lists." + key + ".messages")) {
-				ArrayList<Object> messages = (ArrayList<Object>) getConfig().getList("message-lists." + key + ".messages");
+				List<?> messages = getConfig().getList("message-lists." + key + ".messages");
 
-				for (Object m : messages) {
-					if (m instanceof String) {
-						finalMessages.add(new Message((String) m));
-					} else if (m instanceof Map) {
-						Map<String, List<String>> message = (Map<String, List<String>>) m;
-
-						for (Entry<String, List<String>> entry : message.entrySet()) {
-							finalMessages.add(new Message(entry.getKey()));
+				for (Object entry : messages) {
+					if (entry instanceof String message) {
+						finalMessages.add(new Message(message));
+					} else if (entry instanceof Map<?,?> message) {
+						Set<?> keys = message.keySet();
+						for (Object keyEntry : keys) {
+							if (keyEntry instanceof String keyString) {
+								finalMessages.add(new Message(keyString));
+							}
 						}
 					}
 				}
@@ -139,20 +128,12 @@ public class AutoMessage extends JavaPlugin {
 			getConfig().set("message-lists." + key + ".interval", list.getInterval());
 			getConfig().set("message-lists." + key + ".expiry", list.getExpiry());
 			getConfig().set("message-lists." + key + ".random", list.isRandom());
-
-			List<String> messages = new LinkedList<String>();
-
-			for (Message m : list.getMessages()) {
-				messages.add(m.getMessage());
-			}
+			
+			List<String> messages = list.getMessages().stream().map(Message::getMessage).toList();
 
 			getConfig().set("message-lists." + key + ".messages", messages);
 		}
 
 		saveConfig();
-	}
-
-	public File getFile() {
-		return super.getFile();
 	}
 }

@@ -17,11 +17,9 @@ public class DefaultCommands {
 		// help [Page]
 		int maxLines = 6;
 
-		if (args.length != 0) {
-			if (!(Utils.isInteger(args[0])) || Math.abs(Integer.valueOf(args[0])) * maxLines - maxLines >= CommandManager.getCommands().size()) {
-				sender.sendMessage(ChatColor.RED + "The specified page was not found.");
-				return;
-			}
+		if (args.length != 0 && (!(Utils.isInteger(args[0])) || Math.abs(Integer.valueOf(args[0])) * maxLines - maxLines >= CommandManager.getCommands().size())) {
+			sender.sendMessage(ChatColor.RED + "The specified page was not found.");
+			return;
 		}
 
 		int page = args.length == 0 ? 1 : Math.abs(Integer.valueOf(args[0]));

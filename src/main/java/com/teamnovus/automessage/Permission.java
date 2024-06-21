@@ -32,7 +32,7 @@ public enum Permission {
 		return "automessage." + permission.getNode();
 	}
 
-	public static Boolean has(Permission permission, CommandSender target) {
+	public static boolean has(Permission permission, CommandSender target) {
 		return target.hasPermission(getPermission(permission));
 	}
 }

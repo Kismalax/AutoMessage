@@ -7,6 +7,8 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
 
 public class Utils {
+	
+	private Utils () { }
 
 	public static boolean isInteger(String s) {
 		try {
@@ -22,17 +24,17 @@ public class Utils {
 		return StringUtils.join(args, " ");
 	}
 
-	public final static long SECONDS = 60;
-	public final static long MINUTES = 60;
-	public final static long HOURS = 24;
+	public static final long SECONDS = 60;
+	public static final long MINUTES = 60;
+	public static final long HOURS = 24;
 
-	public final static long ONE_SECOND = 1000;
-	public final static long ONE_MINUTE = ONE_SECOND * 60;
-	public final static long ONE_HOUR = ONE_MINUTE * 60;
-	public final static long ONE_DAY = ONE_HOUR * 24;
+	public static final long ONE_SECOND = 1000;
+	public static final long ONE_MINUTE = ONE_SECOND * 60;
+	public static final long ONE_HOUR = ONE_MINUTE * 60;
+	public static final long ONE_DAY = ONE_HOUR * 24;
 
 	public static String millisToLongDHMS(long duration) {
-		final StringBuffer res = new StringBuffer();
+		final StringBuilder res = new StringBuilder();
 		long temp = 0;
 		if (duration >= ONE_SECOND) {
 			temp = duration / ONE_DAY;
@@ -77,7 +79,7 @@ public class Utils {
 		int minutes = 0;
 		int seconds = 0;
 
-		final Pattern p = Pattern.compile("\\d+[a-z]{1}");
+		final Pattern p = Pattern.compile("\\d+[a-z]");
 		final Matcher m = p.matcher(timeString);
 		boolean result = m.find();
 

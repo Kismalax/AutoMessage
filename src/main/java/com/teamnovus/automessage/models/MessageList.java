@@ -1,7 +1,7 @@
 package com.teamnovus.automessage.models;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -12,15 +12,16 @@ import org.bukkit.entity.Player;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 public class MessageList {
 	private boolean enabled = true;
 	private int interval = 45;
 	private long expiry = -1L;
 	private boolean random = false;
-	private List<Message> messages = new LinkedList<Message>();
+	private List<Message> messages = new ArrayList<>();
 
-	private transient int currentIndex = 0;
+	private int currentIndex = 0;
 
 	public MessageList() {
 		messages.add(new Message("First message in the list!"));
@@ -109,7 +110,7 @@ public class MessageList {
 	}
 
 	public boolean hasMessages() {
-		return messages.size() > 0;
+		return !messages.isEmpty();
 	}
 
 	public void setCurrentIndex(int index) {
@@ -136,21 +137,21 @@ public class MessageList {
 		Message message = getMessage(index);
 
 		if (message != null) {
-			List<String> messages = message.getMessages();
+			List<String> messagePieces = message.getMessages();
 			List<String> commands = message.getCommands();
 
-			for (int i = 0; i < messages.size(); i++) {
-				String m = messages.get(i);
+			for (int i = 0; i < messagePieces.size(); i++) {
+				String m = messagePieces.get(i);
 
-				if (to instanceof Player) {
+				if (to instanceof Player player) {
 					if (m.contains("{NAME}"))
-						m = m.replace("{NAME}", ((Player) to).getName());
+						m = m.replace("{NAME}", player.getName());
 					if (m.contains("{DISPLAY_NAME}"))
-						m = m.replace("{DISPLAY_NAME}", ((Player) to).getDisplayName());
+						m = m.replace("{DISPLAY_NAME}", LegacyComponentSerializer.legacyAmpersand().serialize(player.displayName()));
 					if (m.contains("{WORLD}"))
-						m = m.replace("{WORLD}", ((Player) to).getWorld().getName());
+						m = m.replace("{WORLD}", player.getWorld().getName());
 					if (m.contains("{BIOME}"))
-						m = m.replace("{BIOME}", ((Player) to).getLocation().getBlock().getBiome().toString());
+						m = m.replace("{BIOME}", player.getLocation().getBlock().getBiome().toString());
 				} else if (to instanceof ConsoleCommandSender) {
 					if (m.contains("{NAME}"))
 						m = m.replace("{NAME}", to.getName());

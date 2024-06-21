@@ -5,14 +5,11 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 
 public class MessageList {
 	private boolean enabled = true;
@@ -139,15 +136,13 @@ public class MessageList {
 		if (message != null) {
 			List<String> messagePieces = message.getMessages();
 			List<String> commands = message.getCommands();
-
-			for (int i = 0; i < messagePieces.size(); i++) {
-				String m = messagePieces.get(i);
-
+			
+			for (String m : messagePieces) {
 				if (to instanceof Player player) {
 					if (m.contains("{NAME}"))
 						m = m.replace("{NAME}", player.getName());
 					if (m.contains("{DISPLAY_NAME}"))
-						m = m.replace("{DISPLAY_NAME}", LegacyComponentSerializer.legacyAmpersand().serialize(player.displayName()));
+						m = m.replace("{DISPLAY_NAME}", MiniMessage.miniMessage().serialize(player.displayName()));
 					if (m.contains("{WORLD}"))
 						m = m.replace("{WORLD}", player.getWorld().getName());
 					if (m.contains("{BIOME}"))
@@ -193,16 +188,7 @@ public class MessageList {
 				if (m.contains("{SECOND}"))
 					m = m.replace("{SECOND}", Calendar.getInstance().get(Calendar.SECOND) + "");
 
-				if (message.isJsonMessage(i) && to instanceof Player) {
-					try {
-						Component components = GsonComponentSerializer.gson().deserialize(m);
-						to.sendMessage(components);
-					} catch (Exception ignore) {
-						ignore.printStackTrace();
-					}
-				} else {
-					to.sendMessage(ChatColor.translateAlternateColorCodes("&".charAt(0), m));
-				}
+				to.sendMessage(MiniMessage.miniMessage().deserialize(m));
 			}
 
 			for (String command : commands) {

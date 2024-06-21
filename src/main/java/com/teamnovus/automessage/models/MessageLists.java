@@ -66,11 +66,11 @@ public class MessageLists {
 		for (Entry<String, MessageList> entry : lists.entrySet()) {
 			MessageList list = lists.get(entry.getKey());
 
-			Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(AutoMessage.plugin, new BroadcastTask(entry.getKey()), 20L * list.getInterval(), 20L * list.getInterval());
+			Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(AutoMessage.getInstance(), new BroadcastTask(entry.getKey()), 20L * list.getInterval(), 20L * list.getInterval());
 		}
 	}
 
 	public static void unschedule() {
-		Bukkit.getScheduler().cancelTasks(AutoMessage.plugin);
+		Bukkit.getScheduler().cancelTasks(AutoMessage.getInstance());
 	}
 }

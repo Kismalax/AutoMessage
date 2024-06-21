@@ -14,7 +14,18 @@ settings:
   enabled: true
   min-players: 0
   log-to-console: false
+  convert-to-minimessage: false
 message-lists:
+  minimessage:
+    enabled: true
+    random: false
+    interval: 45
+    expiry: -1
+    messages:
+    - '<dark_purple>First<reset> message <newline>in the minimessage list!'
+    - '<color:#CC4477>Second message <newline><bold>in the minimessage list!'
+    - '<rainbow>Third message in the minimessage list!</rainbow>'
+    - '<color:#339955>These messages will be displayed to users with <newline><gradient:#5e4fa2:#f79459>automessage.receive.minimessage</gradient> permission'
   regular:
     enabled: true
     random: false
@@ -23,8 +34,7 @@ message-lists:
     messages:
     - '&1First&r message \nin the default list!'
     - '&2Second&r message \nin the default list!'
-    - '&3Third&r message \nin the default list!'
-    - 'These messages will be displayed to users with \nautomessage.receive.regular!'
+    - 'These messages will be displayed to users with \nautomessage.receive.regular permission'
   json:
     enabled: true
     random: false

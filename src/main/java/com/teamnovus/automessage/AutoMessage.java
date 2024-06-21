@@ -19,7 +19,7 @@ import com.teamnovus.automessage.models.MessageList;
 import com.teamnovus.automessage.models.MessageLists;
 
 public class AutoMessage extends JavaPlugin {
-	public static AutoMessage plugin;
+	private static AutoMessage instance;
 
 	@Override
 	public void onEnable() {
@@ -31,7 +31,7 @@ public class AutoMessage extends JavaPlugin {
 			return;
 		}
 		
-		plugin = this;
+		instance = this;
 
 		// Setup the base command.
 		getCommand("automessage").setExecutor(new BaseCommandExecutor());
@@ -50,7 +50,7 @@ public class AutoMessage extends JavaPlugin {
 	public void onDisable() {
 		MessageLists.unschedule();
 
-		plugin = null;
+		instance = null;
 	}
 
 	public boolean loadConfig() {
@@ -156,5 +156,10 @@ public class AutoMessage extends JavaPlugin {
 	
 	private static boolean isPaper() {
 		return hasClass("com.destroystokyo.paper.PaperConfig") || hasClass("io.papermc.paper.configuration.Configuration");
+	}
+	
+	public static AutoMessage getInstance() {
+		if (instance == null) throw new IllegalStateException("The plugin is not in initalized state");
+		return instance;
 	}
 }

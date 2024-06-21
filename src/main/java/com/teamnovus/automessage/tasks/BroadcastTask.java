@@ -19,10 +19,10 @@ public class BroadcastTask implements Runnable {
 
 	@Override
 	public void run() {
-		if (MessageLists.getExactList(name) != null && AutoMessage.plugin.getConfig().getBoolean("settings.enabled")) {
+		if (MessageLists.getExactList(name) != null && AutoMessage.getInstance().getConfig().getBoolean("settings.enabled")) {
 			MessageList list = MessageLists.getExactList(name);
 
-			if (list.isEnabled() && list.hasMessages() && !(list.isExpired()) && (Bukkit.getServer().getOnlinePlayers().size() >= AutoMessage.plugin.getConfig().getInt("settings.min-players"))) {
+			if (list.isEnabled() && list.hasMessages() && !(list.isExpired()) && (Bukkit.getServer().getOnlinePlayers().size() >= AutoMessage.getInstance().getConfig().getInt("settings.min-players"))) {
 				int index = list.isRandom() ? random.nextInt(list.getMessages().size()) : list.getCurrentIndex();
 
 				for (Player p : Bukkit.getServer().getOnlinePlayers()) {
@@ -31,7 +31,7 @@ public class BroadcastTask implements Runnable {
 					}
 				}
 
-				if (AutoMessage.plugin.getConfig().getBoolean("settings.log-to-console")) {
+				if (AutoMessage.getInstance().getConfig().getBoolean("settings.log-to-console")) {
 					list.broadcastTo(index, Bukkit.getConsoleSender());
 				}
 

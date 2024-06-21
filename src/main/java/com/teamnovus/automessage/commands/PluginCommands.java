@@ -18,7 +18,7 @@ public class PluginCommands {
 
 	@BaseCommand(aliases = "reload", desc = "Reload the configuration from the disk.", usage = "", permission = Permission.COMMAND_RELOAD)
 	public void onReloadCmd(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-		AutoMessage.plugin.loadConfig();
+		AutoMessage.getInstance().loadConfig();
 
 		sender.sendMessage(ChatColor.GREEN + "Configuration reloaded from disk!");
 	}
@@ -29,7 +29,7 @@ public class PluginCommands {
 			if (MessageLists.getExactList(args[0]) == null) {
 				MessageLists.setList(args[0], new MessageList());
 
-				AutoMessage.plugin.saveConfiguration();
+				AutoMessage.getInstance().saveConfiguration();
 
 				sender.sendMessage(ChatColor.GREEN + "List added sucessfully!");
 			} else {
@@ -50,7 +50,7 @@ public class PluginCommands {
 						list.addMessage(message);
 					}
 
-					AutoMessage.plugin.saveConfiguration();
+					AutoMessage.getInstance().saveConfiguration();
 
 					sender.sendMessage(ChatColor.GREEN + "Message added!");
 				} else {
@@ -71,7 +71,7 @@ public class PluginCommands {
 				Message message = new Message(Utils.concat(args, 2, args.length));
 
 				if (list.editMessage(Integer.valueOf(args[1]), message)) {
-					AutoMessage.plugin.saveConfiguration();
+					AutoMessage.getInstance().saveConfiguration();
 
 					sender.sendMessage(ChatColor.GREEN + "Message edited!");
 				} else {
@@ -91,7 +91,7 @@ public class PluginCommands {
 			if (MessageLists.getExactList(args[0]) != null) {
 				MessageLists.setList(args[0], null);
 
-				AutoMessage.plugin.saveConfiguration();
+				AutoMessage.getInstance().saveConfiguration();
 
 				sender.sendMessage(ChatColor.GREEN + "List removed sucessfully!");
 			} else {
@@ -104,7 +104,7 @@ public class PluginCommands {
 				if (Utils.isInteger(args[1])) {
 					if (list.removeMessage(Integer.valueOf(args[1]))) {
 						MessageLists.schedule();
-						AutoMessage.plugin.saveConfiguration();
+						AutoMessage.getInstance().saveConfiguration();
 
 						sender.sendMessage(ChatColor.GREEN + "Message removed!");
 					} else {
@@ -126,7 +126,7 @@ public class PluginCommands {
 		if (list != null) {
 			list.setEnabled(!(list.isEnabled()));
 
-			AutoMessage.plugin.saveConfiguration();
+			AutoMessage.getInstance().saveConfiguration();
 
 			sender.sendMessage(ChatColor.GREEN + "Enabled: " + ChatColor.YELLOW + list.isEnabled() + ChatColor.GREEN + "!");
 		} else {
@@ -143,7 +143,7 @@ public class PluginCommands {
 				list.setInterval(Integer.valueOf(args[1]));
 
 				MessageLists.schedule();
-				AutoMessage.plugin.saveConfiguration();
+				AutoMessage.getInstance().saveConfiguration();
 
 				sender.sendMessage(ChatColor.GREEN + "Interval: " + ChatColor.YELLOW + Integer.valueOf(args[1]) + ChatColor.GREEN + "!");
 			} else {
@@ -170,7 +170,7 @@ public class PluginCommands {
 					list.setExpiry(System.currentTimeMillis() + Utils.parseTime(args[1]));
 				}
 
-				AutoMessage.plugin.saveConfiguration();
+				AutoMessage.getInstance().saveConfiguration();
 
 				if (list.getExpiry() != -1) {
 					sender.sendMessage(ChatColor.GREEN + "Expires in " + ChatColor.YELLOW + Utils.millisToLongDHMS(list.getExpiry() - System.currentTimeMillis()) + ChatColor.GREEN + "!");
@@ -192,7 +192,7 @@ public class PluginCommands {
 		if (list != null) {
 			list.setRandom(!(list.isRandom()));
 
-			AutoMessage.plugin.saveConfiguration();
+			AutoMessage.getInstance().saveConfiguration();
 
 			sender.sendMessage(ChatColor.GREEN + "Random: " + ChatColor.YELLOW + list.isRandom() + ChatColor.GREEN + "!");
 		} else {

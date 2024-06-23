@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.teamnovus.automessage.commands.DefaultCommands;
@@ -17,9 +18,12 @@ import com.teamnovus.automessage.commands.common.CommandManager;
 import com.teamnovus.automessage.models.Message;
 import com.teamnovus.automessage.models.MessageList;
 import com.teamnovus.automessage.models.MessageLists;
+import com.teamnovus.automessage.util.MiniMessageProvider;
 
 public class AutoMessage extends JavaPlugin {
 	private static AutoMessage instance;
+	private boolean isPapiAvailable = false;
+	private MiniMessageProvider miniMessageProvider = null;
 
 	@Override
 	public void onEnable() {
@@ -30,6 +34,8 @@ public class AutoMessage extends JavaPlugin {
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
 		}
+		
+		isPapiAvailable = (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null);
 		
 		instance = this;
 
@@ -42,14 +48,19 @@ public class AutoMessage extends JavaPlugin {
 
 		// Load the configuration.
 		if (loadConfig()) {
+			miniMessageProvider = new MiniMessageProvider();
+			getServer().getPluginManager().registerEvents(miniMessageProvider, this);
+			
 			// Start metrics.
 		}
 	}
 
 	@Override
 	public void onDisable() {
+		HandlerList.unregisterAll(this);
 		MessageLists.unschedule();
 
+		miniMessageProvider = null;
 		instance = null;
 	}
 
@@ -151,6 +162,14 @@ public class AutoMessage extends JavaPlugin {
 		}
 
 		saveConfig();
+	}
+	
+	public boolean isPapiAvailable() {
+		return isPapiAvailable;
+	}
+	
+	public MiniMessageProvider getMiniMessageProvider() {
+		return miniMessageProvider;
 	}
 	
     private static boolean hasClass(String className) {

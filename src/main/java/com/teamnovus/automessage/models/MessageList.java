@@ -1,14 +1,14 @@
 package com.teamnovus.automessage.models;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
+import com.teamnovus.automessage.AutoMessage;
+import com.teamnovus.automessage.util.PlaceholderUtil;
 import com.teamnovus.automessage.util.Utils;
 
 import net.kyori.adventure.text.Component;
@@ -152,6 +152,7 @@ public class MessageList {
 	}
 
 	public void broadcastTo(int index, CommandSender to) {
+		MiniMessage miniMsg = AutoMessage.getInstance().getMiniMessageProvider().getMiniMessage(to);
 		Message message = getMessage(index);
 
 		if (message != null) {
@@ -159,59 +160,11 @@ public class MessageList {
 			List<String> commands = message.getCommands();
 			
 			for (String m : messagePieces) {
-				if (to instanceof Player player) {
-					if (m.contains("{NAME}"))
-						m = m.replace("{NAME}", player.getName());
-					if (m.contains("{DISPLAY_NAME}"))
-						m = m.replace("{DISPLAY_NAME}", MiniMessage.miniMessage().serialize(player.displayName()));
-					if (m.contains("{WORLD}"))
-						m = m.replace("{WORLD}", player.getWorld().getName());
-					if (m.contains("{BIOME}"))
-						m = m.replace("{BIOME}", player.getLocation().getBlock().getBiome().toString());
-				} else if (to instanceof ConsoleCommandSender) {
-					if (m.contains("{NAME}"))
-						m = m.replace("{NAME}", to.getName());
-					if (m.contains("{DISPLAY_NAME}"))
-						m = m.replace("{DISPLAY_NAME}", to.getName());
-					if (m.contains("{WORLD}"))
-						m = m.replace("{WORLD}", "UNKNOWN");
-					if (m.contains("{BIOME}"))
-						m = m.replace("{BIOME}", "UNKNOWN");
-				}
+				m = PlaceholderUtil.fill(m, to);
 
-				if (m.contains("{ONLINE}"))
-					m = m.replace("{ONLINE}", Bukkit.getServer().getOnlinePlayers().size() + "");
-				if (m.contains("{MAX_ONLINE}"))
-					m = m.replace("{MAX_ONLINE}", Bukkit.getServer().getMaxPlayers() + "");
-				if (m.contains("{UNIQUE_PLAYERS}"))
-					m = m.replace("{UNIQUE_PLAYERS}", Bukkit.getServer().getOfflinePlayers().length + "");
-
-				if (m.contains("{YEAR}"))
-					m = m.replace("{YEAR}", Calendar.getInstance().get(Calendar.YEAR) + "");
-				if (m.contains("{MONTH}"))
-					m = m.replace("{MONTH}", Calendar.getInstance().get(Calendar.MONTH) + "");
-				if (m.contains("{WEEK_OF_MONTH}"))
-					m = m.replace("{WEEK_OF_MONTH}", Calendar.getInstance().get(Calendar.WEEK_OF_MONTH) + "");
-				if (m.contains("{WEEK_OF_YEAR}"))
-					m = m.replace("{WEEK_OF_YEAR}", Calendar.getInstance().get(Calendar.WEEK_OF_YEAR) + "");
-				if (m.contains("{DAY_OF_WEEK}"))
-					m = m.replace("{DAY_OF_WEEK}", Calendar.getInstance().get(Calendar.DAY_OF_WEEK) + "");
-				if (m.contains("{DAY_OF_MONTH}"))
-					m = m.replace("{DAY_OF_MONTH}", Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "");
-				if (m.contains("{DAY_OF_YEAR}"))
-					m = m.replace("{DAY_OF_YEAR}", Calendar.getInstance().get(Calendar.DAY_OF_YEAR) + "");
-				if (m.contains("{HOUR}"))
-					m = m.replace("{HOUR}", Calendar.getInstance().get(Calendar.HOUR) + "");
-				if (m.contains("{HOUR_OF_DAY}"))
-					m = m.replace("{HOUR_OF_DAY}", Calendar.getInstance().get(Calendar.HOUR_OF_DAY) + "");
-				if (m.contains("{MINUTE}"))
-					m = m.replace("{MINUTE}", Calendar.getInstance().get(Calendar.MINUTE) + "");
-				if (m.contains("{SECOND}"))
-					m = m.replace("{SECOND}", Calendar.getInstance().get(Calendar.SECOND) + "");
-
-				Component c = MiniMessage.miniMessage().deserializeOr(prefix, Component.empty())
-						.append(MiniMessage.miniMessage().deserialize(m))
-						.append(MiniMessage.miniMessage().deserializeOr(suffix, Component.empty()));
+				Component c = miniMsg.deserializeOr(prefix, Component.empty())
+						.append(miniMsg.deserialize(m))
+						.append(miniMsg.deserializeOr(suffix, Component.empty()));
 				to.sendMessage(c);
 			}
 

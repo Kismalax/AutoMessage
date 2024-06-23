@@ -5,6 +5,7 @@ description: Schedule easily configurable broadcasts!
 website: http://www.novuscraft.org
 main: com.teamnovus.automessage.AutoMessage
 api-version: 1.18
+softdepend: [PlaceholderAPI]
 commands:
    automessage:
      description: Main command for all AutoMessage commands
